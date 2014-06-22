@@ -4,17 +4,29 @@ LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE    := ext2_uuid-prebuilt
-LOCAL_SRC_FILES := ../../androiduuid/obj/local/armeabi/libext2_uuid.a
+ifeq ($(TARGET_ARCH),arm)
+  LOCAL_SRC_FILES := ../../androiduuid/obj/local/armeabi/libext2_uuid.a
+else
+  LOCAL_SRC_FILES := ../../androiduuid/obj/local/$(TARGET_ARCH)/libext2_uuid.a
+endif
 include $(PREBUILT_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE    := crypto-prebuilt
-LOCAL_SRC_FILES := ../../androidopenssl/libs/armeabi/libcrypto.so
+ifeq ($(TARGET_ARCH),arm)
+  LOCAL_SRC_FILES := ../../androidopenssl/libs/armeabi/libcrypto.so
+else
+  LOCAL_SRC_FILES := ../../androidopenssl/libs/$(TARGET_ARCH)/libcrypto.so
+endif
 include $(PREBUILT_SHARED_LIBRARY)
 
 include $(CLEAR_VARS)
 LOCAL_MODULE    := ssl-prebuilt
-LOCAL_SRC_FILES := ../../androidopenssl/libs/armeabi/libssl.so
+ifeq ($(TARGET_ARCH),arm)
+  LOCAL_SRC_FILES := ../../androidopenssl/libs/armeabi/libssl.so
+else
+  LOCAL_SRC_FILES := ../../androidopenssl/libs/$(TARGET_ARCH)/libssl.so
+endif
 include $(PREBUILT_SHARED_LIBRARY)
 
 
