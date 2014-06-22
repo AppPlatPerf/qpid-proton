@@ -23,7 +23,7 @@ $NDK/ndk-build
 navigate to androidproton
 $NDK/ndk-build
 
-This will result in the libraries being built into /chosen/download/path/AndroidProtonBuild/jni/androidproton/libs
+This will result in the libraries being built into /chosen/download/path/proton-a/jni/androidproton/libs
 Inside the libs folder you will find a folder with the name of the architecture that the build targetted. The default is all architectures.
 
 
@@ -35,7 +35,7 @@ There are a number of architectures that you can easily target with ndk-build. F
 -MIPS
 
 To change the architecture that you want to target, (maybe you don't want to wait for openssl to build for every single target :) ,
-there are three files called Application.mk in the AndroidProtonBuild directory.
+there are three files called Application.mk in the proton-a directory.
 They are located in androidopenssl/jni ; androiduuid/jni ; and androidproton/jni 
 Go into the Application.mk file for each one of these folders and change the line that says
 
@@ -48,19 +48,15 @@ If you want to target a couple architectures you can comma separate them for exa
 
 
 ------------------------------USING THE PROTON-C LIBRARY THAT YOU BUILT FOR ANDROID------------------------------
-So a c library was built targetting android, but in order to call into the library from android you have to use java language bindings. This file should be distributed along with two .jar files in the /AndroidProtonBuild/jars folder. You can either use these or build your own by following the instructins in the qpid-proton-0.6 readme. Proton 0.6 includes language bindings into the default build. Reference the proton 0.6 'README' file for information on how to support the production of language bindings in your build. (You basically need to download SWIG)
+So a c library was built targetting android, but in order to call into the library from android you have to use java language bindings. This file should be distributed along with two .jar files in the /proton-a/jars folder. You can either use these or build your own by following the instructins in the qpid-proton-0.6 readme. Proton 0.6 includes language bindings into the default build. Reference the proton 0.6 'README' file for information on how to support the production of language bindings in your build. (You basically need to download SWIG)
 
 			--USING INCLUDED JARS TO CALL PROTON-C LIBRARY (using included jars)--
-Skip the "BUILD THE DESKTOP VERSION... instructions and go to the "IMPORTING ALL YOUR LIBRARIES..." instructions. Note that the location of proton-api-0.6.jar and proton-jni-0.6.jar are located in AndroidProtonBuild/jars instead of wherever they would be stored during a build.
+Skip the "BUILD THE DESKTOP VERSION... instructions and go to the "IMPORTING ALL YOUR LIBRARIES..." instructions. Note that the location of proton-api-0.6.jar and proton-jni-0.6.jar are located in proton-a/jars instead of wherever they would be stored during a build.
 
 
 			--BUILD THE DESKTOP VERSION OF PROTON (proton 0.6) (not using included jars)--
 Since language bindings are needed, the first step to using the newly created c-library is building the desktop version of proton. This way we have access to language bindings.
-You're thinking, "wait a second, this seems like overkill!" but alas the NDK is for compiling and building native libraries. The desktop proton build is necessary to handle the java side of this endeavour.
-(**NOTE** proton0.7 no longer includes java language bindings. Use proton0.6)
 
-download qpid proton from online and extract it
-example: /home/jimmy/qpid-proton-0.6/
 Follow the instructions in the README file located in the qpid-proton-0.6 folder. These are complete instructions on building proton.
 *Make sure you follow the directions for including the SWIG bindings. It is something simple such as merely downloading SWIG.
 
@@ -78,13 +74,13 @@ Recently Java libraries were created.
 Now we need to get the c libraries and java libraries into an android project and start coding!
 
 Begin by copying the c libraries that you built into the 'libs' folder of your android project.
-The c libraries that you built are located in /chosen/download/path/AndroidProtonBuild/jni/androidproton/libs/
-EXAMPLE: cp -R /chosen/download/path/AndroidProtonBuild/jni/androidproton/libs/armeabi/ /usr/jimmy/workspace/[androidproject]/libs/
+The c libraries that you built are located in /chosen/download/path/proton-a/jni/androidproton/libs/
+EXAMPLE: cp -R /chosen/download/path/proton-a/jni/androidproton/libs/armeabi/ /usr/jimmy/workspace/[androidproject]/libs/
 
 Now then, to handle the java libraries you NEED to IMPORT the .jar files into your android project.
 right click on the 'libs' folder of you android project in the eclipse IDE and select import.
 choose  General -> File System
-Then browse for the folder that contains the jars you need to import. Such as:
+Then browse for the folder that contains the jars you need to import. This depends on where you decided to have proton build. If you use the command 'cmake -DCMAKE_INSTALL_PREFIX=. ..' then you jars will be located at:
 /path/where/you/downloaded/qpid-proton-0.6/build/proton-c/bindings/java (Remember you are selecting the FOLDER that contains the .jar file, not the jar file itself.)
 AND
 /path/where/you/downloaded/qpid-proton-0.6/build/proton-j/proton-api
