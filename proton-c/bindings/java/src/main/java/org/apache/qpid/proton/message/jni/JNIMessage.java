@@ -52,6 +52,7 @@ import org.apache.qpid.proton.jni.SWIGTYPE_p_pn_data_t;
 import org.apache.qpid.proton.jni.SWIGTYPE_p_pn_message_t;
 import org.apache.qpid.proton.jni.pn_atom_t;
 import org.apache.qpid.proton.jni.pn_atom_t_u;
+import org.apache.qpid.proton.jni.pn_uuid_t;
 import org.apache.qpid.proton.jni.pn_bytes_t;
 import org.apache.qpid.proton.jni.pn_decimal128_t;
 import org.apache.qpid.proton.jni.pn_format_t;
@@ -1044,8 +1045,9 @@ public class JNIMessage implements Message
             }
             else if(pn_type_t.PN_UUID.equals(type))
             {
-                byte[] b = Proton.pn_bytes_to_array(value.getAs_bytes());
-                ByteBuffer buf = ByteBuffer.wrap(b);
+                pn_uuid_t uuidT = value.getAs_uuid();
+		byte[] uuidBytes = uuidT.getBytes();
+		ByteBuffer buf = ByteBuffer.wrap(myBytes);
                 return new UUID(buf.getLong(), buf.getLong());
             }
 

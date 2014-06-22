@@ -53,7 +53,11 @@ static inline ssize_t pn_send(int sockfd, const void *buf, size_t len) {
 }
 
 static inline int pn_create_socket() {
+#ifdef __ANDROID__
+    return socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+#else
     return socket(AF_INET, SOCK_STREAM, getprotobyname("tcp")->p_proto);
+#endif
 }
 #elif defined(SO_NOSIGPIPE)
 static inline ssize_t pn_send(int sockfd, const void *buf, size_t len) {
@@ -61,7 +65,11 @@ static inline ssize_t pn_send(int sockfd, const void *buf, size_t len) {
 }
 
 static inline int pn_create_socket() {
+#ifdef __ANDROID__
+    int sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+#else
     int sock = socket(AF_INET, SOCK_STREAM, getprotobyname("tcp")->p_proto);
+#endif
     if (sock == -1) return sock;
 
     int optval = 1;
