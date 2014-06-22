@@ -1,0 +1,25 @@
+In order to use proton-c on Android some changes had to be made to the SWIG java bindings present in the Qpid-Proton-0.6 repository. The aim of this document is to record the changes that have been made to the java binding source code in the desktop proton trunk. This is important knowledge because if one's goal is to build their own proton-jni .jar then they need to know what changes they need to make to the source code of the desktop version in order to get their code working on Android. All these changes are references to Proton-0.6 java bindings.
+
+In the qpid-proton-0.6 repository the location of the java binding source files is qpid-proton-0.6/proton-c/bindings/java/src/main/
+
+		----CHANGES----
+*org.apache.qpid.proton.messenger.jni.JNIMessenger.java*
+	The JNIMessenger stopped() method was not working correctly. A 'private boolean stopped' field was added to keep track of the state of the messenger. This field is initialized to true in the constructor. This field is set to true in the start() method. This field is set to false in the stop() method.
+
+
+*org.apache.qpid.proton.message.jni.JNIMessage.java*
+	convert() was causing seg-faults whenever atom was of type UUID. In order to fix this the code handling UUID was changed to:
+
+else if(pn_type_t.PN_UUID.equals(type))
+{
+	pn_uuid_t uuidT = value.getAs_uuid();
+	byte[] myBytes = uuidT.getBytes();
+	ByteBuffer buf = ByteBuffer.wrap(myBytes);
+	return new UUID(buf.getLong(), buf.getLong());
+}
+
+
+*org.apache.qpid.proton.jni.JNIfactory.java*
+	On Android the libproton-jni.so library requires that the UUID library 'libext2_uuid.so' be loaded with it. To fix this the following line was added:
+	System.loadLibrary("ext2_uuid");
+This line must be added before the 'System.loadLibrary(libname);' line.

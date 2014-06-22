@@ -1,0 +1,23 @@
+To import the example project to eclipse first set up the Android SDK with eclipse.
+The Android SDK is located at: http://developer.android.com/sdk/index.html
+Instructions for using it in eclipse are at: http://developer.android.com/sdk/installing/installing-adt.html
+Make sure to get the SDK before worrying about setting up eclipse for Android.
+
+
+When Eclipse is set up to program with Android follow these instructions to import the sample project.
+1. Open Eclipse
+2. if the 'Welcome' screen opens that prompts you to do things such as create a new project just exit out of it.
+3. In the 'Package Explorer', which is defaulted to the left side of eclipse, right click and select 'new -> Project...'
+4. In the 'New Project' wizard that opens go to 'Android -> Android Project from Existing Code'
+5. Browse for the root directory of the project, which is 'AndroidProtonBuild/Example Project/ExampleSendReceive' and click ok when you have selected it.
+6. It will ask you to select the name for the project. Just keep it as ExampleSendReceive.
+7. The project will be runnable right after importing, but in order to get it to run correctly you should go into UsingSwig.java in the src folder and change the address that you send to/receive from.
+
+
+Importing jars into an Android Project.
+1. In your Android project in the 'Package Explorer' right click on the 'libs' folder and select 'Import...'
+2. Select 'General -> File System'
+3. Browse for the folder containing the jars to be imported, for example 'AndroidProtonBuild/jars'
+4. Select the root folder and click OK.
+5. At the top right of the selection screen check the .jars that you want to import
+6. Press 'Finish'

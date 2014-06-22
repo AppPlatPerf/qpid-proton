@@ -1,0 +1,3 @@
+Changes from desktop proton.
+
+In posix/driver.c all occurences of the getprotobyname function was replaced with "IPPROTO".
