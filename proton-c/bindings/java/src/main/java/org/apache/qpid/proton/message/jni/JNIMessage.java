@@ -1047,7 +1047,7 @@ public class JNIMessage implements Message
             {
                 pn_uuid_t uuidT = value.getAs_uuid();
 		byte[] uuidBytes = uuidT.getBytes();
-		ByteBuffer buf = ByteBuffer.wrap(myBytes);
+		ByteBuffer buf = ByteBuffer.wrap(uuidBytes);
                 return new UUID(buf.getLong(), buf.getLong());
             }
 
